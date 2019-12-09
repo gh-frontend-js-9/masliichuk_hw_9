@@ -1,0 +1,48 @@
+body{
+    background-image: url("img/pets.jpg");
+    background-size: cover;
+    color: #fff;
+}
+
+ul{
+    list-style-type: none;
+}
+
+button{
+    padding:15px 30px;
+    margin-bottom:25px;
+    min-width: 125px;
+}
+
+h1{
+    color:#ffffff;
+}
+
+.stat {
+    width: 200px;
+    height: 20px;
+    background-color: green;
+    position: relative;
+}
+
+.stat > div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: red;
+    z-index: 5;
+}
+
+.stat > span {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 6;
+    text-align: center;
+    color: #fff;
+    font-size: 14px;
+    line-height: 20px;
+}
