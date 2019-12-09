@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tamagochy</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="tamagochy.js"></script>
+    <script>
+      let pet, gameTimer;
+
+      function createPet(level){
+        let petName = "";
+
+        while(petName==""){
+          petName = prompt('Please, enter the name of your pet...');
+        }
+
+        pet = new Tamagochy(petName, level);
+
+        document.getElementById('create_pet_easy').setAttribute('disabled', 'disabled');
+        document.getElementById('create_pet_hard').setAttribute('disabled', 'disabled');
+        document.getElementById('create_pet_ninja').setAttribute('disabled', 'disabled');
+
+        if (level === 3) {
+
+          document.getElementById('eat').setAttribute('disabled', 'disabled');
+          document.getElementById('wash').setAttribute('disabled', 'disabled');
+          document.getElementById('run').setAttribute('disabled', 'disabled');
+
+          document.getElementById('visit_doctor').removeAttribute('disabled');
+          document.getElementById('go_to_bar').removeAttribute('disabled');
+          document.getElementById('go_to_work').removeAttribute('disabled');
+          document.getElementById('buy_food').removeAttribute('disabled');
+          document.getElementById('start_business').removeAttribute('disabled');
+        } else {
+
+          document.getElementById('eat').removeAttribute('disabled');
+          document.getElementById('wash').removeAttribute('disabled');
+          document.getElementById('run').removeAttribute('disabled');
+
+          document.getElementById('visit_doctor').setAttribute('disabled', 'disabled');
+          document.getElementById('go_to_bar').setAttribute('disabled', 'disabled');
+          document.getElementById('go_to_work').setAttribute('disabled', 'disabled');
+          document.getElementById('buy_food').setAttribute('disabled', 'disabled');
+          document.getElementById('start_business').setAttribute('disabled', 'disabled');
+        }
+
+        gameTimer = setInterval(checkGame, 2000);
+      }
+
+      function updateStats() {
+
+        if (pet.getGameLevel() === 3) {
+          let healthPercent = pet.getStatPercent('health');
+          let healthValue = pet.getStatValue('health');
+
+          document.querySelectorAll('#health-stat span')[0].innerText = `${healthValue}`;
+          document.querySelectorAll('#health-stat div')[0].style.width = `${healthPercent}%`;
+
+          let socializationPercent = pet.getStatPercent('socialization');
+          let socializationValue = pet.getStatValue('socialization');
+
+          document.querySelectorAll('#socialization-stat span')[0].innerText = `${socializationValue}`;
+          document.querySelectorAll('#socialization-stat div')[0].style.width = `${socializationPercent}%`;
+
+          let moneyPercent = pet.getStatPercent('money');
+          let moneyValue = pet.getStatValue('money');
+
+          document.querySelectorAll('#money-stat span')[0].innerText = `${moneyValue}`;
+          document.querySelectorAll('#money-stat div')[0].style.width = `${moneyPercent}%`;
+
+        } else {
+          let cleanPercent = pet.getStatPercent('clean');
+          let cleanValue = pet.getStatValue('clean');
+
+          document.querySelectorAll('#clean-stat span')[0].innerText = `${cleanValue}`;
+          document.querySelectorAll('#clean-stat div')[0].style.width = `${cleanPercent}%`;
+        }
+
+        let foodPercent = pet.getStatPercent('food');
+        let foodValue = pet.getStatValue('food');
+        let happinessValue = pet.getStatValue('happiness');
+        let happinessPercent = pet.getStatPercent('happiness');
+
+        document.querySelectorAll('#food-stat span')[0].innerText = `${foodValue}`;
+        document.querySelectorAll('#food-stat div')[0].style.width = `${foodPercent}%`;
+
+        document.querySelectorAll('#happiness-stat span')[0].innerText = `${happinessValue}`;
+        document.querySelectorAll('#happiness-stat div')[0].style.width = `${happinessPercent}%`;
+
+
+        document.getElementById('lifetime').innerText = `${pet.getLifeTime()}sec`;
+      }
+
+      function checkGame() {
+        updateStats();
+        if (pet.isEndGame()) {
+          clearInterval(gameTimer);
+          pet.stopGame();
+
+          document.getElementById('create_pet_easy').removeAttribute('disabled');
+          document.getElementById('create_pet_hard').removeAttribute('disabled');
+          document.getElementById('create_pet_ninja').removeAttribute('disabled');
+
+          document.getElementById('eat').setAttribute('disabled', 'disabled');
+          document.getElementById('wash').setAttribute('disabled', 'disabled');
+          document.getElementById('run').setAttribute('disabled', 'disabled');
+
+          document.getElementById('visit_doctor').setAttribute('disabled', 'disabled');
+          document.getElementById('go_to_bar').setAttribute('disabled', 'disabled');
+          document.getElementById('go_to_work').setAttribute('disabled', 'disabled');
+          document.getElementById('buy_food').setAttribute('disabled', 'disabled');
+          document.getElementById('start_business').setAttribute('disabled', 'disabled');
+
+          alert('DIED!');
+        }
+      }
+
+      function eat(){
+        pet.eat();
+      }
+
+      function wash(){
+        pet.wash();
+      }
+
+      function run(){
+        pet.run();
+      }
+
+      // Ninja only
+      function visitDoctor(){
+        pet.visitDoctor();
+      }
+
+      function goToBar(){
+        pet.goToBar();
+      }
+
+      function goToWork(){
+        pet.goToWork();
+      }
+
+      function buyFood(){
+        pet.buyFood();
+      }
+
+      function startBusiness(){
+        pet.startBusiness();
+      }
+    </script>
+</head>
+<body>
+    <h1>Tamagochy task</h1>
+    <ul>
+        <li><button id="create_pet_easy" onclick="createPet(1)">Create a pet/ Fluffy kitty (easy level)</button> </li>
+        <li><button id="create_pet_hard" onclick="createPet(2)">Create a pet/ Lazy pug (hard level)</button> </li>
+        <li><button id="create_pet_ninja" onclick="createPet(3)">Create a pet/Ninja (hard level)</button></li>
+
+        <li><button disabled id="eat" onclick="eat()">Eat</button></li>
+        <li><button disabled id="wash" onclick="wash()">Wash</button></li>
+        <li><button disabled id="run" onclick="run()">Run</button></li>
+
+        <li><button disabled id="visit_doctor" onclick="visitDoctor()">Visit doctor</button></li>
+        <li><button disabled id="go_to_bar" onclick="goToBar()">Go to bar</button></li>
+        <li><button disabled id="go_to_work" onclick="goToWork()">Go to work</button></li>
+        <li><button disabled id="buy_food" onclick="buyFood()">Buy food</button></li>
+        <li><button disabled id="start_business" onclick="startBusiness()">Start Business</button></li>
+    </ul>
+    <div class="stats" >
+        Time: <span id="lifetime" >0</span><br><br>
+
+        Food:
+        <div id="food-stat" class="stat" >
+            <span></span>
+            <div></div>
+        </div>
+
+        Clean:
+        <div id="clean-stat" class="stat" >
+            <span></span>
+            <div></div>
+        </div>
+
+        Happiness:
+        <div id="happiness-stat" class="stat" >
+            <span></span>
+            <div></div>
+        </div>
+
+        Health:
+        <div id="health-stat" class="stat" >
+            <span></span>
+            <div></div>
+        </div>
+
+        Socialization:
+        <div id="socialization-stat" class="stat" >
+            <span></span>
+            <div></div>
+        </div>
+
+        Money:
+        <div id="money-stat" class="stat" >
+            <span></span>
+            <div></div>
+        </div>
+    </div>
+</body>
+</html>
